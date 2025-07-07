@@ -511,7 +511,7 @@ export default function Home() {
             </h2>
             <div className="w-20 h-1 bg-blue-600 mx-auto mb-4"></div>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Enterprise-level applications and innovative solutions I've developed
+              Enterprise-level applications and innovative solutions I&apos;ve developed
             </p>
           </div>
           
@@ -682,7 +682,7 @@ export default function Home() {
                 <span className="text-gray-500">~/</span>
                 <span>portfolio</span>
                 <span className="text-blue-400">$</span>
-                <span className="text-white ml-2">echo "Thanks for visiting!"</span>
+                <span className="text-white ml-2">echo &quot;Thanks for visiting!&quot;</span>
               </div>
             </div>
             <div className="text-gray-400 mb-4">
