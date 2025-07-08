@@ -17,7 +17,14 @@ import {
   Monitor, 
   Smartphone, 
   FileCode, 
-  Box
+  Box,
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  Users,
+  Linkedin,
+  ArrowUpRight
 } from "lucide-react";
 
 
@@ -33,9 +40,10 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('hero');
-  const [active, setActive] = useState('about');
+  const [active, setActive] = useState('hero');
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const heroRef = useRef(null);
   const aboutRef = useRef(null);
   const skillsRef = useRef(null);
   const projectsRef = useRef(null);
@@ -68,7 +76,7 @@ export default function Home() {
             entry.target.classList.add('animate-slide-in-up');
             // Update active section based on scroll position
             const sectionId = entry.target.id;
-            if (sectionId && ['about', 'skills', 'projects', 'contact'].includes(sectionId)) {
+            if (sectionId && ['hero', 'about', 'skills', 'projects', 'contact'].includes(sectionId)) {
               setActive(sectionId);
             }
           }
@@ -77,7 +85,7 @@ export default function Home() {
       { threshold: 0.3 }
     );
 
-    [aboutRef, skillsRef, projectsRef].forEach(ref => {
+    [heroRef, aboutRef, skillsRef, projectsRef].forEach(ref => {
       if (ref.current) observer.observe(ref.current);
     });
 
@@ -156,25 +164,26 @@ export default function Home() {
   
 
   return (
-    <div className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 dark:bg-gray-900 min-h-screen`}>
-      {/* Header/Navigation - Now integrated in page */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 relative z-50">
+    <div className={`${geistSans.variable} ${geistMono.variable} bg-white min-h-screen`}>
+      {/* Header/Navigation - Apple Style Sticky */}
+      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            {/* Logo/Name */}
+            {/* Logo/Name - Apple Style */}
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{backgroundColor: 'var(--apple-blue)'}}>
                 ÖFE
               </div>
               <div className="hidden sm:block">
-                <div className="text-lg font-bold text-gray-900 dark:text-white">Ömer Faruk Ertaş</div>
-                <div className="text-xs text-gray-500">Full Stack Developer</div>
+                <div className="text-lg font-bold text-black">Ömer Faruk Ertaş</div>
+                <div className="text-xs" style={{color: 'var(--apple-text-secondary)'}}>Full Stack Developer</div>
               </div>
             </div>
             
             {/* Navigation Menu */}
             <nav className="hidden md:flex space-x-8">
               {[
+                { name: 'About Me', id: 'hero' },
                 { name: 'Experience', id: 'about' },
                 { name: 'Skills', id: 'skills' },
                 { name: 'Projects', id: 'projects' },
@@ -188,41 +197,46 @@ export default function Home() {
                   }}
                   className={`relative px-3 py-2 font-medium transition-all duration-200 ${
                     active === item.id
-                      ? 'text-blue-600 dark:text-blue-400'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                      ? 'text-blue-600'
+                      : 'text-gray-600 hover:text-black'
                   }`}
+                  style={{
+                    color: active === item.id ? 'var(--apple-blue)' : 'var(--apple-text-secondary)'
+                  }}
                 >
                   {item.name}
                   {active === item.id && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-full"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full" style={{backgroundColor: 'var(--apple-blue)'}}></div>
                   )}
                 </button>
               ))}
             </nav>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Apple Style */}
             <div className="flex items-center">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                style={{backgroundColor: isMobileMenuOpen ? 'var(--apple-gray-6)' : 'transparent'}}
                 aria-label="Toggle mobile menu"
               >
                 {isMobileMenuOpen ? (
-                  <X size={24} className="text-gray-600 dark:text-gray-300" />
+                  <X size={24} style={{color: 'var(--apple-text-secondary)'}} />
                 ) : (
-                  <Menu size={24} className="text-gray-600 dark:text-gray-300" />
+                  <Menu size={24} style={{color: 'var(--apple-text-secondary)'}} />
                 )}
               </button>
             </div>
                       </div>
           </div>
           
-          {/* Mobile Navigation Menu */}
+          {/* Mobile Navigation Menu - Apple Style */}
           {isMobileMenuOpen && (
-            <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 absolute top-full left-0 right-0 z-50 shadow-lg">
+            <div className="md:hidden bg-white border-t absolute top-full left-0 right-0 z-50 shadow-lg" style={{borderColor: 'var(--apple-gray-4)'}}>
               <nav className="px-4 py-4">
                 <div className="flex flex-col space-y-2">
                   {[
+                    { id: 'hero', label: 'About Me' },
                     { id: 'about', label: 'Experience' },
                     { id: 'skills', label: 'Skills' },
                     { id: 'projects', label: 'Projects' },
@@ -231,11 +245,21 @@ export default function Home() {
                     <button
                       key={item.id}
                       onClick={() => scrollToSection(item.id)}
-                      className={`px-4 py-3 rounded-lg text-left font-medium transition-all duration-200 ${
-                        activeSection === item.id
-                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                          : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
-                      }`}
+                      className="px-4 py-3 rounded-lg text-left font-medium transition-all duration-200"
+                      style={{
+                        backgroundColor: activeSection === item.id ? 'var(--apple-blue)' : 'transparent',
+                        color: activeSection === item.id ? 'white' : 'var(--apple-text-primary)'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (activeSection !== item.id) {
+                          e.target.style.backgroundColor = 'var(--apple-gray-6)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (activeSection !== item.id) {
+                          e.target.style.backgroundColor = 'transparent';
+                        }
+                      }}
                     >
                       {item.label}
                     </button>
@@ -246,8 +270,8 @@ export default function Home() {
           )}
         </header>
 
-      {/* Hero Section - Professional */}
-      <section id="hero" className="bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
+      {/* Hero Section - Apple Style */}
+      <section id="hero" ref={heroRef} className="relative overflow-hidden" style={{backgroundColor: 'var(--apple-bg-secondary)'}}>
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
@@ -258,54 +282,70 @@ export default function Home() {
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="text-center">
-            {/* Profile Image */}
+            {/* Profile Image - Apple Style */}
             <div className="mb-8">
-              <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg">
+              <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg" style={{backgroundColor: 'var(--apple-blue)'}}>
                 ÖFE
               </div>
             </div>
             
-            {/* Main Content */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+            {/* Main Content - Apple Style */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4" style={{color: 'var(--apple-text-primary)'}}>
               Ömer Faruk Ertaş
             </h1>
             
-            <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-6">
+            <p className="text-xl sm:text-2xl mb-6" style={{color: 'var(--apple-text-secondary)'}}>
               Full Stack Developer
             </p>
             
-            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg mb-12 max-w-3xl mx-auto leading-relaxed" style={{color: 'var(--apple-text-secondary)'}}>
               İstanbul merkezli Full Stack Developer. Python, JavaScript, C# ve modern teknolojilerle enterprise seviyesinde 
               yazılım çözümleri geliştiriyorum. Web otomasyonu, veri analizi ve sistem entegrasyonu konularında uzmanım.
             </p>
             
-            {/* Stats */}
+            {/* Stats - Apple Style */}
             <div className="grid grid-cols-3 gap-4 sm:gap-8 mb-12 max-w-2xl mx-auto">
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-2">2+</div>
-                <div className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Years Experience</div>
+                <div className="text-2xl sm:text-3xl font-bold mb-2" style={{color: 'var(--apple-blue)'}}>2+</div>
+                <div className="text-sm sm:text-base" style={{color: 'var(--apple-text-secondary)'}}>Years Experience</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-2">10+</div>
-                <div className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Projects</div>
+                <div className="text-2xl sm:text-3xl font-bold mb-2" style={{color: 'var(--apple-blue)'}}>10+</div>
+                <div className="text-sm sm:text-base" style={{color: 'var(--apple-text-secondary)'}}>Projects</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-2">12+</div>
-                <div className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Technologies</div>
+                <div className="text-2xl sm:text-3xl font-bold mb-2" style={{color: 'var(--apple-blue)'}}>12+</div>
+                <div className="text-sm sm:text-base" style={{color: 'var(--apple-text-secondary)'}}>Technologies</div>
               </div>
             </div>
             
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Apple Style */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => scrollToSection('projects')}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+                className="text-white px-8 py-3 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+                style={{backgroundColor: 'var(--apple-blue)'}}
+                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--apple-blue-dark)'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--apple-blue)'}
               >
                 View My Work
               </button>
               <button
                 onClick={() => scrollToSection('contact')}
-                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 rounded-lg font-medium transition-all duration-200"
+                className="border-2 px-8 py-3 rounded-xl font-medium transition-all duration-200"
+                style={{
+                  borderColor: 'var(--apple-blue)',
+                  color: 'var(--apple-blue)',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'var(--apple-blue)';
+                  e.target.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'transparent';
+                  e.target.style.color = 'var(--apple-blue)';
+                }}
               >
                 Get In Touch
               </button>
@@ -314,159 +354,186 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-12 md:py-20 bg-gray-50 dark:bg-gray-800" ref={aboutRef}>
+      {/* About Section - Apple Style */}
+      <section id="about" className="py-12 md:py-20" style={{backgroundColor: 'var(--apple-bg-primary)'}} ref={aboutRef}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4" style={{color: 'var(--apple-text-primary)'}}>
               Work Experience
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p className="max-w-2xl mx-auto" style={{color: 'var(--apple-text-secondary)'}}>
               My professional journey from education to enterprise-level development
             </p>
-            <div className="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
+            <div className="w-20 h-1 mx-auto mt-4" style={{backgroundColor: 'var(--apple-blue)'}}></div>
           </div>
           
           <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
-            <div className="lg:col-span-2">
-                             {/* Timeline */}
-               <div className="relative">
-                 {/* Timeline Line */}
-                 <div className="absolute left-3 md:left-4 top-0 bottom-0 w-0.5 bg-blue-200 dark:bg-blue-800"></div>
-                 
-                 <div className="space-y-6 md:space-y-8">
-                   {/* Current Position */}
-                   <div className="relative flex items-start">
-                     <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 bg-blue-600 rounded-full flex items-center justify-center relative z-10">
-                       <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
-                     </div>
-                     <div className="ml-4 md:ml-6 bg-white dark:bg-gray-800 p-4 md:p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 flex-1">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                          Full Stack Developer
-                        </h3>
-                        <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">
-                          2023 - Present
-                        </span>
-                      </div>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
-                        Enterprise seviyesinde web uygulamaları ve otomasyon sistemleri geliştiriyorum. 
-                        Python, JavaScript, C# teknolojileriyle REST API&apos;ler, mikroservis mimarileri ve 
-                        modern frontend uygulamaları tasarlıyorum.
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded-full">Python</span>
-                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded-full">React</span>
-                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded-full">Node.js</span>
-                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded-full">Docker</span>
-                      </div>
-                    </div>
-                  </div>
+          <div className="lg:col-span-2">
+            <div className="relative">
+                <div className="absolute left-3 md:left-4 top-0 bottom-0 w-0.5" style={{backgroundColor: 'var(--apple-gray-4)'}}></div>
+                <div className="space-y-6 md:space-y-8">
 
-                                     {/* Previous Position */}
-                   <div className="relative flex items-start">
-                     <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center relative z-10">
-                       <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
-                     </div>
-                     <div className="ml-4 md:ml-6 bg-white dark:bg-gray-800 p-4 md:p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 flex-1">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                          System Administrator & IT Support
-                        </h3>
-                        <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                          2022 - 2023
-                        </span>
-                      </div>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
-                        Linux sunucu yönetimi, ağ altyapısı kurulumu ve sistem otomasyonu konularında 
-                        deneyim kazandım. Virtualization teknolojileri ve CI/CD süreçleri üzerinde çalıştım.
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">Linux</span>
-                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">Bash</span>
-                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">Networking</span>
-                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">VMware</span>
-                      </div>
+                {/* Ensmart Teknoloji - Apple Style */}
+                <div className="relative flex items-start">
+                    <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center relative z-10" style={{backgroundColor: 'var(--apple-blue)'}}>
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
                     </div>
-                  </div>
-
-                                     {/* Education/Early Career */}
-                   <div className="relative flex items-start">
-                     <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center relative z-10">
-                       <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
-                     </div>
-                     <div className="ml-4 md:ml-6 bg-white dark:bg-gray-800 p-4 md:p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 flex-1">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                          Junior Developer & Learning Phase
+                    <div className="ml-4 md:ml-6 bg-white p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{borderColor: 'var(--apple-gray-4)'}}>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                        <h3 className="text-lg font-semibold" style={{color: 'var(--apple-text-primary)'}}>
+                        Yazılım Geliştiricisi, Ensmart Teknoloji
                         </h3>
-                        <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                          2021 - 2022
+                        <span className="text-sm font-medium" style={{color: 'var(--apple-blue)'}}>
+                        02/2025 – Devam ediyor
                         </span>
-                      </div>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
-                        Programlama temelleri ve web teknolojilerini öğrenerek ilk projelerimi geliştirdim. 
-                        Makine öğrenmesi, görüntü işleme ve web otomasyonu konularında deneyim edindim.
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">Python</span>
-                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">OpenCV</span>
-                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">Selenium</span>
-                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">ML</span>
-                      </div>
                     </div>
-                  </div>
+                    <p className="text-sm leading-relaxed mb-3" style={{color: 'var(--apple-text-secondary)'}}>
+                        MES sistemi tasarımı ve geliştirmesi, Logo Tiger entegrasyonu, çoklu üretim bant yönetimi ve kurumsal IT destek süreçlerinde aktif görev alıyorum.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                        <span className="tag">Python</span>
+                        <span className="tag">SQL</span>
+                        <span className="tag">Logo Tiger</span>
+                        <span className="tag">MES</span>
+                    </div>
+                    </div>
                 </div>
-              </div>
+
+                {/* Meyer - Apple Style */}
+                <div className="relative flex items-start">
+                    <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center relative z-10" style={{backgroundColor: 'var(--apple-gray)'}}>
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
+                    </div>
+                    <div className="ml-4 md:ml-6 bg-white p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{borderColor: 'var(--apple-gray-4)'}}>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                        <h3 className="text-lg font-semibold" style={{color: 'var(--apple-text-primary)'}}>
+                        SQL Geliştirici ve Destek Uzmanı, Meyer
+                        </h3>
+                        <span className="text-sm font-medium" style={{color: 'var(--apple-text-secondary)'}}>
+                        01/2025 – 02/2025
+                        </span>
+                    </div>
+                    <p className="text-sm leading-relaxed mb-3" style={{color: 'var(--apple-text-secondary)'}}>
+                        SQL sorguları, stored procedure'ler geliştirdim ve veri tabanı yönetimi, optimizasyonları ile teknik destek sağladım.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                        <span className="tag">SQL</span>
+                        <span className="tag">Stored Procedure</span>
+                        <span className="tag">Database</span>
+                        <span className="tag">Support</span>
+                    </div>
+                    </div>
+                </div>
+
+                {/* Kocaeli İSU - Apple Style */}
+                <div className="relative flex items-start">
+                    <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center relative z-10" style={{backgroundColor: 'var(--apple-gray)'}}>
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
+                    </div>
+                    <div className="ml-4 md:ml-6 bg-white p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{borderColor: 'var(--apple-gray-4)'}}>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                        <h3 className="text-lg font-semibold" style={{color: 'var(--apple-text-primary)'}}>
+                        IT Stajyeri, Kocaeli İSU Genel Müdürlüğü
+                        </h3>
+                        <span className="text-sm font-medium" style={{color: 'var(--apple-text-secondary)'}}>
+                        08/2024 – 09/2024
+                        </span>
+                    </div>
+                    <p className="text-sm leading-relaxed mb-3" style={{color: 'var(--apple-text-secondary)'}}>
+                        Fiziksel ağ kurulumu, C# ile IP tarayıcı geliştirme ve Python/YOLOv3 kullanarak nesne tanıma tabanlı güvenlik kamerası sistemi oluşturma.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                        <span className="tag">C#</span>
+                        <span className="tag">Python</span>
+                        <span className="tag">YOLOv3</span>
+                        <span className="tag">Networking</span>
+                    </div>
+                    </div>
+                </div>
+
+                {/* TÜBİTAK - Apple Style */}
+                <div className="relative flex items-start">
+                    <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center relative z-10" style={{backgroundColor: 'var(--apple-gray)'}}>
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
+                    </div>
+                    <div className="ml-4 md:ml-6 bg-white p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{borderColor: 'var(--apple-gray-4)'}}>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                        <h3 className="text-lg font-semibold" style={{color: 'var(--apple-text-primary)'}}>
+                        Yazılım Geliştirme Stajyeri, TÜBİTAK BİLGEM SGE
+                        </h3>
+                        <span className="text-sm font-medium" style={{color: 'var(--apple-text-secondary)'}}>
+                        06/2023 – 08/2023
+                        </span>
+                    </div>
+                    <p className="text-sm leading-relaxed mb-3" style={{color: 'var(--apple-text-secondary)'}}>
+                        Spring Boot ile RESTful API geliştirdim, React.js ile ön yüz tasarımı yaptım ve PostgreSQL üzerinde veri modelleme deneyimi kazandım.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                        <span className="tag">Spring Boot</span>
+                        <span className="tag">React.js</span>
+                        <span className="tag">PostgreSQL</span>
+                        <span className="tag">REST API</span>
+                    </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
             </div>
             
             <div className="space-y-4 md:space-y-6">
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-                <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900 dark:text-white">Connect</h3>
+              <div className="bg-white p-6 rounded-xl shadow-sm border" style={{borderColor: 'var(--apple-gray-4)'}}>
+                <h3 className="text-base md:text-lg font-semibold mb-4" style={{color: 'var(--apple-text-primary)'}}>Connect</h3>
                 <div className="space-y-3">
                   <a
                     href="https://linkedin.com/in/ömerfarukertaş"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-3 text-blue-600 hover:text-blue-800 transition-colors group"
+                    className="flex items-center space-x-3 transition-colors group"
+                    style={{color: 'var(--apple-blue)'}}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--apple-blue-dark)'}
+                    onMouseLeave={(e) => e.target.style.color = 'var(--apple-blue)'}
                   >
-                    <span className="text-blue-600 group-hover:text-blue-800">→</span>
+                    <span>→</span>
                     <span>LinkedIn Profile</span>
                   </a>
                   <a
                     href="https://github.com/omerfark"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-3 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300 transition-colors group"
+                    className="flex items-center space-x-3 transition-colors group"
+                    style={{color: 'var(--apple-text-secondary)'}}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--apple-text-primary)'}
+                    onMouseLeave={(e) => e.target.style.color = 'var(--apple-text-secondary)'}
                   >
-                    <span className="text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-300">→</span>
+                    <span>→</span>
                     <span>GitHub Repository</span>
                   </a>
                 </div>
               </div>
               
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-                <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900 dark:text-white">Current Status</h3>
+              <div className="bg-white p-6 rounded-xl shadow-sm border" style={{borderColor: 'var(--apple-gray-4)'}}>
+                <h3 className="text-base md:text-lg font-semibold mb-4" style={{color: 'var(--apple-text-primary)'}}>Current Status</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <div className="w-3 h-3 rounded-full animate-pulse" style={{backgroundColor: 'var(--apple-green)'}}></div>
                     <div>
-                      <div className="text-sm font-medium text-gray-900 dark:text-white">Available for work</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400">Open to new opportunities</div>
+                      <div className="text-sm font-medium" style={{color: 'var(--apple-text-primary)'}}>Available for work</div>
+                      <div className="text-xs" style={{color: 'var(--apple-text-secondary)'}}>Open to new opportunities</div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <div className="w-3 h-3 rounded-full" style={{backgroundColor: 'var(--apple-blue)'}}></div>
                     <div>
-                      <div className="text-sm font-medium text-gray-900 dark:text-white">Full Stack Development</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400">Current focus area</div>
+                      <div className="text-sm font-medium" style={{color: 'var(--apple-text-primary)'}}>Full Stack Development</div>
+                      <div className="text-xs" style={{color: 'var(--apple-text-secondary)'}}>Current focus area</div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                    <div className="w-3 h-3 rounded-full" style={{backgroundColor: 'var(--apple-purple)'}}></div>
                     <div>
-                      <div className="text-sm font-medium text-gray-900 dark:text-white">Istanbul, Turkey</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400">Based in Çekmekoy</div>
+                      <div className="text-sm font-medium" style={{color: 'var(--apple-text-primary)'}}>Istanbul, Turkey</div>
+                      <div className="text-xs" style={{color: 'var(--apple-text-secondary)'}}>Based in Çekmekoy</div>
                     </div>
                   </div>
                 </div>
@@ -476,29 +543,43 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Skills Section - Tech Stack */}
-      <section id="skills" className="py-12 md:py-20 bg-white dark:bg-gray-900" ref={skillsRef}>
+      {/* Skills Section - Apple Tech Stack */}
+      <section id="skills" className="py-12 md:py-20" style={{backgroundColor: 'var(--apple-bg-secondary)'}} ref={skillsRef}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4" style={{color: 'var(--apple-text-primary)'}}>
               Tech Stack
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p className="max-w-2xl mx-auto" style={{color: 'var(--apple-text-secondary)'}}>
               Here are my tech stack and tools I work with
             </p>
-            <div className="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
+            <div className="w-20 h-1 mx-auto mt-4" style={{backgroundColor: 'var(--apple-blue)'}}></div>
           </div>
           
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 mt-5">
             {skills.map((skill, index) => (
               <div
                 key={index}
-                className="group flex flex-col items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800 hover:shadow-md hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 border border-gray-200 dark:border-gray-700"
+                className="group flex flex-col items-center p-3 rounded-lg hover:shadow-md transition-all duration-200 border"
+                style={{
+                  backgroundColor: 'var(--apple-bg-primary)',
+                  borderColor: 'var(--apple-gray-4)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--apple-bg-tertiary)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--apple-bg-primary)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
               >
                 <div className={`mb-1 ${skill.color} group-hover:scale-110 transition-transform duration-200`}>
                   {skill.icon}
                 </div>
-                <span className="text-xs font-medium text-gray-600 dark:text-gray-300 text-center">
+                <span className="text-xs font-medium text-center" style={{color: 'var(--apple-text-primary)'}}>
                   {skill.name}
                 </span>
               </div>
@@ -507,39 +588,40 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section id="projects" className="py-12 md:py-20 bg-gray-50 dark:bg-gray-800" ref={projectsRef}>
+      {/* Projects Section - Apple Style */}
+      <section id="projects" className="py-12 md:py-20" style={{backgroundColor: 'var(--apple-bg-primary)'}} ref={projectsRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4" style={{color: 'var(--apple-text-primary)'}}>
               Featured Projects
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base max-w-2xl mx-auto" style={{color: 'var(--apple-text-secondary)'}}>
               A showcase of applications and solutions I&apos;ve built with passion and precision
             </p>
-            <div className="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
+            <div className="w-20 h-1 mx-auto mt-4" style={{backgroundColor: 'var(--apple-blue)'}}></div>
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {projects.map((project, index) => (
               <div 
                 key={index} 
-                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 md:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                className="bg-white border rounded-lg p-4 md:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                style={{borderColor: 'var(--apple-gray-4)'}}
               >
                 <div className="flex items-start justify-between mb-3 md:mb-4">
-                  <div className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-medium">
+                  <div className="px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-medium" style={{backgroundColor: 'var(--apple-blue-light)', color: 'var(--apple-blue)'}}>
                     {project.category}
                   </div>
-                  <div className="text-gray-400 font-mono text-xs md:text-sm">
+                  <div className="font-mono text-xs md:text-sm" style={{color: 'var(--apple-text-tertiary)'}}>
                     #{String(index + 1).padStart(2, '0')}
                   </div>
                 </div>
                 
-                <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-2 md:mb-3">
+                <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-3" style={{color: 'var(--apple-text-primary)'}}>
                   {project.title}
                 </h3>
                 
-                <p className="text-gray-600 dark:text-gray-300 mb-3 md:mb-4 text-xs md:text-sm leading-relaxed">
+                <p className="mb-3 md:mb-4 text-xs md:text-sm leading-relaxed" style={{color: 'var(--apple-text-secondary)'}}>
                   {project.description}
                 </p>
                 
@@ -547,7 +629,8 @@ export default function Home() {
                   {project.tech.map((tech, techIndex) => (
                     <span
                       key={techIndex}
-                      className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-xs font-mono"
+                      className="px-2 py-1 rounded text-xs font-mono"
+                      style={{backgroundColor: 'var(--apple-bg-secondary)', color: 'var(--apple-text-primary)'}}
                     >
                       {tech}
                     </span>
@@ -559,7 +642,10 @@ export default function Home() {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-1 md:space-x-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 text-xs md:text-sm transition-colors group"
+                    className="flex items-center space-x-1 md:space-x-2 text-xs md:text-sm transition-colors group"
+                    style={{color: 'var(--apple-text-secondary)'}}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--apple-text-primary)'}
+                    onMouseLeave={(e) => e.target.style.color = 'var(--apple-text-secondary)'}
                   >
                     <span className="group-hover:scale-110 transition-transform">→</span>
                     <span>Source Code</span>
@@ -568,7 +654,10 @@ export default function Home() {
                     href={project.demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-1 md:space-x-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-xs md:text-sm transition-colors group"
+                    className="flex items-center space-x-1 md:space-x-2 text-xs md:text-sm transition-colors group"
+                    style={{color: 'var(--apple-blue)'}}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--apple-blue-dark)'}
+                    onMouseLeave={(e) => e.target.style.color = 'var(--apple-blue)'}
                   >
                     <span className="group-hover:scale-110 transition-transform">↗</span>
                     <span>Live Demo</span>
@@ -580,122 +669,201 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-12 md:py-20 bg-white dark:bg-gray-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Get In Touch
+      {/* Contact Section - Apple Professional */}
+      <section id="contact" className="py-16 md:py-24" style={{background: 'linear-gradient(to bottom right, var(--apple-bg-primary), var(--apple-bg-secondary))'}}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: 'var(--apple-text-primary)'}}>
+              Let's Work Together
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Let&apos;s discuss opportunities, collaborations, or just have a conversation about technology
+            <p className="text-lg max-w-2xl mx-auto" style={{color: 'var(--apple-text-secondary)'}}>
+              Ready to bring your next project to life? Let's discuss how we can collaborate.
             </p>
-            <div className="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
+            <div className="w-20 h-1 mx-auto mt-6" style={{backgroundColor: 'var(--apple-blue)'}}></div>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-            <div className="space-y-4 md:space-y-6">
-              <div className="bg-white dark:bg-gray-900 p-4 md:p-6 rounded-lg shadow-lg">
-                <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-                  Get In Touch
-                </h3>
+          {/* Professional Contact Cards */}
+          <div className="grid lg:grid-cols-3 gap-8 mb-12">
+            {/* Contact Info Card */}
+            <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg border p-8" style={{borderColor: 'var(--apple-gray-4)'}}>
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style={{backgroundColor: 'var(--apple-blue)'}}>
+                  <Globe className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold" style={{color: 'var(--apple-text-primary)'}}>Contact Information</h3>
+                  <p style={{color: 'var(--apple-text-secondary)'}}>Preferred methods of communication</p>
+                </div>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0 border border-blue-200 dark:border-blue-800">
-                      <span className="text-blue-600 text-sm font-mono">@</span>
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: 'var(--apple-blue-light)'}}>
+                      <Mail className="w-5 h-5" style={{color: 'var(--apple-blue)'}} />
                     </div>
-                    <div className="min-w-0">
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Email</div>
-                      <a href="mailto:mrertas12@gmail.com" className="text-blue-600 hover:text-blue-800 font-medium break-all transition-colors">
+                    <div>
+                      <div className="text-sm font-medium" style={{color: 'var(--apple-text-primary)'}}>Email</div>
+                      <a href="mailto:mrertas12@gmail.com" className="transition-colors" style={{color: 'var(--apple-blue)'}}>
                         mrertas12@gmail.com
                       </a>
+                      <div className="text-xs mt-1" style={{color: 'var(--apple-text-tertiary)'}}>Response within 24 hours</div>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-green-50 dark:bg-green-900/30 rounded-lg flex items-center justify-center flex-shrink-0 border border-green-200 dark:border-green-800">
-                      <span className="text-green-600 text-sm font-mono">📞</span>
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: 'var(--apple-green-light)'}}>
+                      <Phone className="w-5 h-5" style={{color: 'var(--apple-green)'}} />
                     </div>
-                    <div className="min-w-0">
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Phone</div>
-                      <a href="tel:+905447452012" className="text-green-600 hover:text-green-800 font-medium transition-colors">
+                    <div>
+                      <div className="text-sm font-medium" style={{color: 'var(--apple-text-primary)'}}>Phone</div>
+                      <a href="tel:+905447452012" className="transition-colors" style={{color: 'var(--apple-green)'}}>
                         +90 544 745 2012
                       </a>
+                      <div className="text-xs mt-1" style={{color: 'var(--apple-text-tertiary)'}}>Available 9 AM - 6 PM (UTC+3)</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: 'var(--apple-purple-light)'}}>
+                      <MapPin className="w-5 h-5" style={{color: 'var(--apple-purple)'}} />
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium" style={{color: 'var(--apple-text-primary)'}}>Location</div>
+                      <div style={{color: 'var(--apple-text-secondary)'}}>Çekmekoy, Istanbul</div>
+                      <div className="text-xs mt-1" style={{color: 'var(--apple-text-tertiary)'}}>Open to remote work</div>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900/30 rounded-lg flex items-center justify-center flex-shrink-0 border border-purple-200 dark:border-purple-800">
-                      <span className="text-purple-600 text-sm font-mono">📍</span>
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: 'var(--apple-orange-light)'}}>
+                      <Clock className="w-5 h-5" style={{color: 'var(--apple-orange)'}} />
                     </div>
-                    <div className="min-w-0">
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Location</div>
-                      <span className="text-gray-600 dark:text-gray-300 font-medium">Çekmekoy, Istanbul</span>
+                    <div>
+                      <div className="text-sm font-medium" style={{color: 'var(--apple-text-primary)'}}>Availability</div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 rounded-full" style={{backgroundColor: 'var(--apple-green)'}}></div>
+                        <span className="text-sm" style={{color: 'var(--apple-green)'}}>Available for new projects</span>
+                      </div>
+                      <div className="text-xs mt-1" style={{color: 'var(--apple-text-tertiary)'}}>Starting February 2025</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="space-y-4 md:space-y-6">
-              <div className="bg-white dark:bg-gray-900 p-4 md:p-6 rounded-lg shadow-lg">
-                <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-                  Professional Links
-                </h3>
-                <div className="space-y-4">
-                  <a
-                    href="https://linkedin.com/in/ömerfarukertaş"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-4 p-4 rounded-xl border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 group"
-                  >
-                    <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-mono text-sm">in</span>
-                    </div>
-                    <div className="min-w-0">
-                      <div className="font-medium text-gray-900 dark:text-white">LinkedIn</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Professional Network</div>
-                    </div>
-                    <div className="text-blue-600 group-hover:translate-x-1 transition-transform">→</div>
-                  </a>
-                  
-                  <a
-                    href="https://github.com/omerfark"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-4 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group"
-                  >
-                    <div className="w-10 h-10 bg-gray-800 dark:bg-gray-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-mono text-sm">gh</span>
-                    </div>
-                    <div className="min-w-0">
-                      <div className="font-medium text-gray-900 dark:text-white">GitHub</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Source Code & Projects</div>
-                    </div>
-                    <div className="text-gray-600 group-hover:translate-x-1 transition-transform">→</div>
-                  </a>
+            {/* Professional Links Card */}
+            <div className="bg-white rounded-2xl shadow-lg border p-8" style={{borderColor: 'var(--apple-gray-4)'}}>
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style={{backgroundColor: 'var(--apple-gray)'}}>
+                  <Users className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold" style={{color: 'var(--apple-text-primary)'}}>Professional</h3>
+                  <p style={{color: 'var(--apple-text-secondary)'}}>Connect with me</p>
                 </div>
               </div>
+              
+              <div className="space-y-4">
+                <a
+                  href="https://linkedin.com/in/ömerfarukertaş"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-4 p-4 rounded-xl border hover:shadow-md transition-all duration-200 group"
+                  style={{borderColor: 'var(--apple-blue-light)'}}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--apple-blue-light)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: 'var(--apple-blue)'}}>
+                    <Linkedin className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium" style={{color: 'var(--apple-text-primary)'}}>LinkedIn</div>
+                    <div className="text-sm" style={{color: 'var(--apple-text-secondary)'}}>Professional network</div>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" style={{color: 'var(--apple-blue)'}} />
+                </a>
+                
+                <a
+                  href="https://github.com/omerfark"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-4 p-4 rounded-xl border hover:shadow-md transition-all duration-200 group"
+                  style={{borderColor: 'var(--apple-gray-4)'}}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--apple-bg-secondary)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{backgroundColor: 'var(--apple-gray)'}}>
+                    <GitBranch className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium" style={{color: 'var(--apple-text-primary)'}}>GitHub</div>
+                    <div className="text-sm" style={{color: 'var(--apple-text-secondary)'}}>Source code & projects</div>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" style={{color: 'var(--apple-text-secondary)'}} />
+                </a>
+                
+                <div className="pt-4 border-t" style={{borderColor: 'var(--apple-gray-4)'}}>
+                  <div className="text-center">
+                    <div className="text-sm font-medium mb-1" style={{color: 'var(--apple-text-primary)'}}>Response Time</div>
+                    <div className="text-xs" style={{color: 'var(--apple-text-tertiary)'}}>Usually responds within a few hours</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Call to Action - Apple Style */}
+          <div className="text-center bg-white rounded-2xl shadow-lg border p-8" style={{borderColor: 'var(--apple-gray-4)'}}>
+            <h3 className="text-2xl font-semibold mb-4" style={{color: 'var(--apple-text-primary)'}}>
+              Ready to Start Your Next Project?
+            </h3>
+            <p className="mb-6 max-w-2xl mx-auto" style={{color: 'var(--apple-text-secondary)'}}>
+              Whether you need a full-stack web application, MES system integration, or technical consultation, 
+              I'm here to help bring your ideas to life with modern technologies and best practices.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="mailto:mrertas12@gmail.com?subject=Project Inquiry&body=Hello Ömer, I'd like to discuss a project opportunity..."
+                className="inline-flex items-center justify-center px-6 py-3 font-medium rounded-xl transition-all duration-200 transform hover:scale-105"
+                style={{backgroundColor: 'var(--apple-blue)', color: 'white'}}
+                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--apple-blue-dark)'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--apple-blue)'}
+              >
+                <Mail className="w-5 h-5 mr-2" />
+                Send Message
+              </a>
+              <a
+                href="https://linkedin.com/in/ömerfarukertaş"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-6 py-3 border font-medium rounded-xl transition-all duration-200 transform hover:scale-105"
+                style={{borderColor: 'var(--apple-gray-4)', color: 'var(--apple-text-primary)'}}
+                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--apple-bg-secondary)'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+              >
+                <Linkedin className="w-5 h-5 mr-2" />
+                Connect on LinkedIn
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-8">
+      {/* Footer - Apple Style */}
+      <footer className="bg-white border-t py-8" style={{borderColor: 'var(--apple-gray-4)'}}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{background: 'linear-gradient(135deg, var(--apple-blue), var(--apple-purple))'}}>
                 ÖFE
               </div>
-              <span className="text-gray-900 dark:text-white font-semibold">Ömer Faruk Ertaş</span>
+              <span className="font-semibold" style={{color: 'var(--apple-text-primary)'}}>Ömer Faruk Ertaş</span>
             </div>
-            <div className="text-gray-600 dark:text-gray-400 text-sm">
+            <div className="text-sm" style={{color: 'var(--apple-text-secondary)'}}>
               © 2024 Full Stack Developer
-            </div>
-            <div className="text-gray-500 dark:text-gray-500 text-xs mt-2">
-              Built with Next.js & Tailwind CSS
             </div>
           </div>
         </div>
