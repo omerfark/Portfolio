@@ -1,31 +1,12 @@
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
+import { useState, useEffect, useRef } from 'react';
 import { 
-  Menu, 
-  X, 
-  Code, 
-  Database, 
-  Globe, 
-  Server, 
-  Terminal, 
-  Settings, 
-  Cloud, 
-  GitBranch, 
-  Layers, 
-  Cpu, 
-  Monitor, 
-  Smartphone, 
-  FileCode, 
-  Box,
-  Mail,
-  Phone,
-  MapPin,
-  Clock,
-  Users,
-  Linkedin,
-  ArrowUpRight
-} from "lucide-react";
+  Mail, Phone, MapPin, Clock, Users, Globe, 
+  ArrowUpRight, Linkedin, GitBranch,
+  Code, FileCode, Server, Database, Box, Terminal,
+  Menu, X, Sun, Moon, ArrowUp, ChevronUp,
+  Monitor, Layers, Cloud, Cpu
+} from 'lucide-react';
 
 
 const geistSans = Geist({
@@ -43,13 +24,69 @@ export default function Home() {
   const [active, setActive] = useState('hero');
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const heroRef = useRef(null);
   const aboutRef = useRef(null);
   const skillsRef = useRef(null);
   const projectsRef = useRef(null);
 
+  // Dark Mode Management - Enhanced
+  useEffect(() => {
+    // Check localStorage for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    const shouldUseDarkMode = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
+    
+    setIsDarkMode(shouldUseDarkMode);
+    
+    // Apply theme immediately to prevent flash
+    const root = document.documentElement;
+    root.setAttribute('data-theme', shouldUseDarkMode ? 'dark' : 'light');
+    
+    // Also set background on body for better coverage
+    document.body.style.backgroundColor = shouldUseDarkMode ? '#000000' : '#FFFFFF';
+    document.body.style.color = shouldUseDarkMode ? '#FFFFFF' : '#000000';
+  }, []);
 
-  
+  // Scroll Progress & Scroll to Top
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      
+      setScrollProgress(scrollPercent);
+      setShowScrollTop(scrollTop > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    
+    // Update DOM and localStorage immediately
+    const root = document.documentElement;
+    root.setAttribute('data-theme', newDarkMode ? 'dark' : 'light');
+    localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
+    
+    // Update body background immediately
+    document.body.style.backgroundColor = newDarkMode ? '#000000' : '#FFFFFF';
+    document.body.style.color = newDarkMode ? '#FFFFFF' : '#000000';
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   useEffect(() => {
     setIsLoaded(true);
     
@@ -143,30 +180,61 @@ export default function Home() {
   ];
   
 
+  // Enhanced Skills with Experience Levels
   const skills = [
-    { name: "Python", icon: <Code className="w-6 h-6" />, color: "text-blue-500" },
-    { name: "JavaScript", icon: <FileCode className="w-6 h-6" />, color: "text-yellow-500" },
-    { name: "TypeScript", icon: <Code className="w-6 h-6" />, color: "text-blue-600" },
-    { name: "React", icon: <Globe className="w-6 h-6" />, color: "text-cyan-500" },
-    { name: "Next.js", icon: <Monitor className="w-6 h-6" />, color: "text-gray-900" },
-    { name: "Node.js", icon: <Server className="w-6 h-6" />, color: "text-green-500" },
-    { name: "C#", icon: <Code className="w-6 h-6" />, color: "text-purple-600" },
-    { name: "Java", icon: <Cpu className="w-6 h-6" />, color: "text-red-600" },
-    { name: "PostgreSQL", icon: <Database className="w-6 h-6" />, color: "text-blue-600" },
-    { name: "MongoDB", icon: <Database className="w-6 h-6" />, color: "text-green-500" },
-    { name: "MySQL", icon: <Database className="w-6 h-6" />, color: "text-blue-500" },
-    { name: "Docker", icon: <Box className="w-6 h-6" />, color: "text-blue-400" },
-    { name: "Git", icon: <GitBranch className="w-6 h-6" />, color: "text-orange-600" },
-    { name: "Linux", icon: <Terminal className="w-6 h-6" />, color: "text-yellow-600" },
-    { name: "Tailwind", icon: <Layers className="w-6 h-6" />, color: "text-teal-500" },
-    { name: "Cloud", icon: <Cloud className="w-6 h-6" />, color: "text-gray-600" }
+    { name: 'Python', icon: <Code size={20} />, color: 'text-yellow-600', level: 'Expert', years: '3+' },
+    { name: 'JavaScript', icon: <FileCode size={20} />, color: 'text-yellow-500', level: 'Expert', years: '3+' },
+    { name: 'React.js', icon: <Globe size={20} />, color: 'text-blue-600', level: 'Advanced', years: '2+' },
+    { name: 'Next.js', icon: <Server size={20} />, color: 'text-black', level: 'Advanced', years: '2+' },
+    { name: 'Node.js', icon: <Server size={20} />, color: 'text-green-600', level: 'Advanced', years: '2+' },
+    { name: 'PostgreSQL', icon: <Database size={20} />, color: 'text-blue-700', level: 'Advanced', years: '2+' },
+    { name: 'SQL Server', icon: <Database size={20} />, color: 'text-red-600', level: 'Expert', years: '3+' },
+    { name: 'C#', icon: <Terminal size={20} />, color: 'text-purple-600', level: 'Intermediate', years: '1+' },
+    { name: 'Docker', icon: <Box size={20} />, color: 'text-blue-500', level: 'Intermediate', years: '1+' },
+    { name: 'Git', icon: <GitBranch size={20} />, color: 'text-orange-600', level: 'Advanced', years: '3+' },
+    { name: 'HTML/CSS', icon: <Globe size={20} />, color: 'text-orange-500', level: 'Expert', years: '3+' },
+    { name: 'Tailwind', icon: <FileCode size={20} />, color: 'text-teal-500', level: 'Advanced', years: '2+' }
   ];
   
 
+  // Keyboard Shortcuts
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      // Alt + D for dark mode toggle
+      if (event.altKey && event.key === 'd') {
+        event.preventDefault();
+        toggleDarkMode();
+      }
+      
+      // Number keys for quick navigation
+      const sectionMap = {
+        '1': 'hero',
+        '2': 'about', 
+        '3': 'skills',
+        '4': 'projects',
+        '5': 'contact'
+      };
+      
+      if (event.altKey && sectionMap[event.key]) {
+        event.preventDefault();
+        scrollToSection(sectionMap[event.key]);
+      }
+      
+      // Alt + T for scroll to top
+      if (event.altKey && event.key === 't') {
+        event.preventDefault();
+        scrollToTop();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
+
   return (
-    <div className={`${geistSans.variable} ${geistMono.variable} bg-white min-h-screen`}>
+    <div className={`${geistSans.variable} ${geistMono.variable} min-h-screen`} style={{backgroundColor: 'var(--apple-bg-primary)', color: 'var(--apple-text-primary)'}}>
       {/* Header/Navigation - Apple Style Sticky */}
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+      <header className="shadow-sm border-b sticky top-0 z-50" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             {/* Logo/Name - Apple Style */}
@@ -175,7 +243,7 @@ export default function Home() {
                 ÖFE
               </div>
               <div className="hidden sm:block">
-                <div className="text-lg font-bold text-black">Ömer Faruk Ertaş</div>
+                <div className="text-lg font-bold" style={{color: 'var(--apple-text-primary)'}}>Ömer Faruk Ertaş</div>
                 <div className="text-xs" style={{color: 'var(--apple-text-secondary)'}}>Full Stack Developer</div>
               </div>
             </div>
@@ -191,33 +259,62 @@ export default function Home() {
               ].map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => {
-                    scrollToSection(item.id);
-                    setActive(item.id);
-                  }}
-                  className={`relative px-3 py-2 font-medium transition-all duration-200 ${
-                    active === item.id
-                      ? 'text-blue-600'
-                      : 'text-gray-600 hover:text-black'
-                  }`}
+                  onClick={() => scrollToSection(item.id)}
+                  className="transition-colors text-sm font-medium"
                   style={{
-                    color: active === item.id ? 'var(--apple-blue)' : 'var(--apple-text-secondary)'
+                    color: active === item.id ? 'var(--apple-blue)' : 'var(--apple-text-secondary)',
+                    fontWeight: active === item.id ? '600' : '500'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (active !== item.id) {
+                      e.target.style.color = 'var(--apple-text-primary)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (active !== item.id) {
+                      e.target.style.color = 'var(--apple-text-secondary)';
+                    }
                   }}
                 >
                   {item.name}
-                  {active === item.id && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full" style={{backgroundColor: 'var(--apple-blue)'}}></div>
-                  )}
                 </button>
               ))}
             </nav>
 
-            {/* Mobile Menu Button - Apple Style */}
-            <div className="flex items-center">
+            {/* Dark Mode Toggle & Mobile Menu */}
+            <div className="flex items-center space-x-4">
+              {/* Improved Dark Mode Toggle */}
+              <button
+                onClick={toggleDarkMode}
+                className="relative inline-flex h-6 w-11 items-center rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                style={{
+                  backgroundColor: isDarkMode ? 'var(--apple-blue)' : 'var(--apple-gray-4)',
+                  focusRingColor: 'var(--apple-blue)'
+                }}
+                aria-label="Toggle dark mode"
+              >
+                <span 
+                  className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-300 shadow-lg"
+                  style={{
+                    transform: isDarkMode ? 'translateX(24px)' : 'translateX(2px)'
+                  }}
+                />
+                <div className="absolute inset-0 flex items-center justify-between px-1 pointer-events-none">
+                  <Sun className="h-3 w-3 text-yellow-500 opacity-70" style={{opacity: isDarkMode ? 0.3 : 0.7}} />
+                  <Moon className="h-3 w-3 text-blue-300 opacity-70" style={{opacity: isDarkMode ? 0.7 : 0.3}} />
+                </div>
+              </button>
+
+              {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                style={{backgroundColor: isMobileMenuOpen ? 'var(--apple-gray-6)' : 'transparent'}}
+                className="md:hidden p-2 rounded-lg transition-colors"
+                style={{
+                  backgroundColor: isMobileMenuOpen ? 'var(--apple-bg-secondary)' : 'transparent',
+                  color: 'var(--apple-text-secondary)'
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--apple-bg-secondary)'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = isMobileMenuOpen ? 'var(--apple-bg-secondary)' : 'transparent'}
                 aria-label="Toggle mobile menu"
               >
                 {isMobileMenuOpen ? (
@@ -227,12 +324,11 @@ export default function Home() {
                 )}
               </button>
             </div>
-                      </div>
           </div>
           
-          {/* Mobile Navigation Menu - Apple Style */}
+          {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="md:hidden bg-white border-t absolute top-full left-0 right-0 z-50 shadow-lg" style={{borderColor: 'var(--apple-gray-4)'}}>
+            <div className="md:hidden border-t absolute top-full left-0 right-0 z-50 shadow-lg" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
               <nav className="px-4 py-4">
                 <div className="flex flex-col space-y-2">
                   {[
@@ -252,7 +348,7 @@ export default function Home() {
                       }}
                       onMouseEnter={(e) => {
                         if (activeSection !== item.id) {
-                          e.target.style.backgroundColor = 'var(--apple-gray-6)';
+                          e.target.style.backgroundColor = 'var(--apple-bg-secondary)';
                         }
                       }}
                       onMouseLeave={(e) => {
@@ -268,7 +364,8 @@ export default function Home() {
               </nav>
             </div>
           )}
-        </header>
+        </div>
+      </header>
 
       {/* Hero Section - Apple Style */}
       <section id="hero" ref={heroRef} className="relative overflow-hidden" style={{backgroundColor: 'var(--apple-bg-secondary)'}}>
@@ -282,21 +379,21 @@ export default function Home() {
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="text-center">
-            {/* Profile Image - Apple Style */}
+            {/* Profile Image - Apple Style with Float */}
             <div className="mb-8">
-              <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg" style={{backgroundColor: 'var(--apple-blue)'}}>
+              <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg apple-float apple-glow" style={{backgroundColor: 'var(--apple-blue)'}}>
                 ÖFE
               </div>
             </div>
             
             {/* Main Content - Apple Style */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4" style={{color: 'var(--apple-text-primary)'}}>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 apple-bounce-in" style={{color: 'var(--apple-text-primary)'}}>
               Ömer Faruk Ertaş
             </h1>
             
-            <p className="text-xl sm:text-2xl mb-6" style={{color: 'var(--apple-text-secondary)'}}>
-              Full Stack Developer
-            </p>
+            <div className="text-xl sm:text-2xl mb-6" style={{color: 'var(--apple-text-secondary)'}}>
+              <span className="apple-typewriter">Full Stack Developer</span>
+            </div>
             
             <p className="text-base sm:text-lg mb-12 max-w-3xl mx-auto leading-relaxed" style={{color: 'var(--apple-text-secondary)'}}>
               İstanbul merkezli Full Stack Developer. Python, JavaScript, C# ve modern teknolojilerle enterprise seviyesinde 
@@ -378,7 +475,7 @@ export default function Home() {
                     <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center relative z-10" style={{backgroundColor: 'var(--apple-blue)'}}>
                     <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
                     </div>
-                    <div className="ml-4 md:ml-6 bg-white p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{borderColor: 'var(--apple-gray-4)'}}>
+                    <div className="ml-4 md:ml-6 p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
                         <h3 className="text-lg font-semibold" style={{color: 'var(--apple-text-primary)'}}>
                         Yazılım Geliştiricisi, Ensmart Teknoloji
@@ -404,7 +501,7 @@ export default function Home() {
                     <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center relative z-10" style={{backgroundColor: 'var(--apple-gray)'}}>
                     <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
                     </div>
-                    <div className="ml-4 md:ml-6 bg-white p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{borderColor: 'var(--apple-gray-4)'}}>
+                    <div className="ml-4 md:ml-6 p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
                         <h3 className="text-lg font-semibold" style={{color: 'var(--apple-text-primary)'}}>
                         SQL Geliştirici ve Destek Uzmanı, Meyer
@@ -414,7 +511,7 @@ export default function Home() {
                         </span>
                     </div>
                     <p className="text-sm leading-relaxed mb-3" style={{color: 'var(--apple-text-secondary)'}}>
-                        SQL sorguları, stored procedure'ler geliştirdim ve veri tabanı yönetimi, optimizasyonları ile teknik destek sağladım.
+                        SQL sorguları, stored procedure&apos;ler geliştirdim ve veri tabanı yönetimi, optimizasyonları ile teknik destek sağladım.
                     </p>
                     <div className="flex flex-wrap gap-2">
                         <span className="tag">SQL</span>
@@ -430,7 +527,7 @@ export default function Home() {
                     <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center relative z-10" style={{backgroundColor: 'var(--apple-gray)'}}>
                     <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
                     </div>
-                    <div className="ml-4 md:ml-6 bg-white p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{borderColor: 'var(--apple-gray-4)'}}>
+                    <div className="ml-4 md:ml-6 p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
                         <h3 className="text-lg font-semibold" style={{color: 'var(--apple-text-primary)'}}>
                         IT Stajyeri, Kocaeli İSU Genel Müdürlüğü
@@ -456,7 +553,7 @@ export default function Home() {
                     <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center relative z-10" style={{backgroundColor: 'var(--apple-gray)'}}>
                     <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
                     </div>
-                    <div className="ml-4 md:ml-6 bg-white p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{borderColor: 'var(--apple-gray-4)'}}>
+                    <div className="ml-4 md:ml-6 p-4 md:p-6 rounded-xl shadow-sm border flex-1" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
                         <h3 className="text-lg font-semibold" style={{color: 'var(--apple-text-primary)'}}>
                         Yazılım Geliştirme Stajyeri, TÜBİTAK BİLGEM SGE
@@ -482,7 +579,7 @@ export default function Home() {
             </div>
             
             <div className="space-y-4 md:space-y-6">
-              <div className="bg-white p-6 rounded-xl shadow-sm border" style={{borderColor: 'var(--apple-gray-4)'}}>
+              <div className="p-6 rounded-xl shadow-sm border" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
                 <h3 className="text-base md:text-lg font-semibold mb-4" style={{color: 'var(--apple-text-primary)'}}>Connect</h3>
                 <div className="space-y-3">
                   <a
@@ -512,7 +609,7 @@ export default function Home() {
                 </div>
               </div>
               
-              <div className="bg-white p-6 rounded-xl shadow-sm border" style={{borderColor: 'var(--apple-gray-4)'}}>
+              <div className="p-6 rounded-xl shadow-sm border" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
                 <h3 className="text-base md:text-lg font-semibold mb-4" style={{color: 'var(--apple-text-primary)'}}>Current Status</h3>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
@@ -566,7 +663,7 @@ export default function Home() {
                   borderColor: 'var(--apple-gray-4)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--apple-bg-tertiary)';
+                  e.currentTarget.style.backgroundColor = 'var(--apple-bg-secondary)';
                   e.currentTarget.style.transform = 'translateY(-2px)';
                   e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
                 }}
@@ -582,6 +679,9 @@ export default function Home() {
                 <span className="text-xs font-medium text-center" style={{color: 'var(--apple-text-primary)'}}>
                   {skill.name}
                 </span>
+                <div className="text-xs mt-1" style={{color: 'var(--apple-text-secondary)'}}>
+                  {skill.level} ({skill.years})
+                </div>
               </div>
             ))}
           </div>
@@ -605,8 +705,8 @@ export default function Home() {
             {projects.map((project, index) => (
               <div 
                 key={index} 
-                className="bg-white border rounded-lg p-4 md:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                style={{borderColor: 'var(--apple-gray-4)'}}
+                className="border rounded-lg p-4 md:p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}
               >
                 <div className="flex items-start justify-between mb-3 md:mb-4">
                   <div className="px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-medium" style={{backgroundColor: 'var(--apple-blue-light)', color: 'var(--apple-blue)'}}>
@@ -674,10 +774,10 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{color: 'var(--apple-text-primary)'}}>
-              Let's Work Together
+              Let&apos;s Work Together
             </h2>
             <p className="text-lg max-w-2xl mx-auto" style={{color: 'var(--apple-text-secondary)'}}>
-              Ready to bring your next project to life? Let's discuss how we can collaborate.
+              Ready to bring your next project to life? Let&apos;s discuss how we can collaborate.
             </p>
             <div className="w-20 h-1 mx-auto mt-6" style={{backgroundColor: 'var(--apple-blue)'}}></div>
           </div>
@@ -685,7 +785,7 @@ export default function Home() {
           {/* Professional Contact Cards */}
           <div className="grid lg:grid-cols-3 gap-8 mb-12">
             {/* Contact Info Card */}
-            <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg border p-8" style={{borderColor: 'var(--apple-gray-4)'}}>
+            <div className="lg:col-span-2 rounded-2xl shadow-lg border p-8" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style={{backgroundColor: 'var(--apple-blue)'}}>
                   <Globe className="w-6 h-6 text-white" />
@@ -755,7 +855,7 @@ export default function Home() {
             </div>
             
             {/* Professional Links Card */}
-            <div className="bg-white rounded-2xl shadow-lg border p-8" style={{borderColor: 'var(--apple-gray-4)'}}>
+            <div className="rounded-2xl shadow-lg border p-8" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style={{backgroundColor: 'var(--apple-gray)'}}>
                   <Users className="w-6 h-6 text-white" />
@@ -816,13 +916,13 @@ export default function Home() {
           </div>
           
           {/* Call to Action - Apple Style */}
-          <div className="text-center bg-white rounded-2xl shadow-lg border p-8" style={{borderColor: 'var(--apple-gray-4)'}}>
+          <div className="text-center rounded-2xl shadow-lg border p-8" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
             <h3 className="text-2xl font-semibold mb-4" style={{color: 'var(--apple-text-primary)'}}>
               Ready to Start Your Next Project?
             </h3>
             <p className="mb-6 max-w-2xl mx-auto" style={{color: 'var(--apple-text-secondary)'}}>
               Whether you need a full-stack web application, MES system integration, or technical consultation, 
-              I'm here to help bring your ideas to life with modern technologies and best practices.
+              I&apos;m here to help bring your ideas to life with modern technologies and best practices.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -853,7 +953,7 @@ export default function Home() {
       </section>
 
       {/* Footer - Apple Style */}
-      <footer className="bg-white border-t py-8" style={{borderColor: 'var(--apple-gray-4)'}}>
+      <footer className="border-t py-8" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)'}}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-4">
@@ -868,6 +968,25 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Scroll Progress Indicator - Apple Style */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <div className="p-2 rounded-full shadow-lg flex items-center justify-center" style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)', border: '1px solid'}}>
+          <span className="text-xs font-medium" style={{color: 'var(--apple-text-primary)'}}>{Math.round(scrollProgress)}%</span>
+        </div>
+      </div>
+
+      {/* Scroll to Top Button - Apple Style */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-20 right-4 z-50 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+          style={{backgroundColor: 'var(--apple-bg-primary)', borderColor: 'var(--apple-gray-4)', border: '1px solid'}}
+          aria-label="Scroll to top"
+        >
+          <ArrowUp className="w-6 h-6" style={{color: 'var(--apple-text-secondary)'}} />
+        </button>
+      )}
     </div>
   );
 }
