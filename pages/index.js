@@ -182,18 +182,18 @@ export default function Home() {
 
   // Enhanced Skills with Experience Levels
   const skills = [
-    { name: 'Python', icon: <Code size={20} />, color: 'text-yellow-600', level: 'Expert', years: '3+' },
-    { name: 'JavaScript', icon: <FileCode size={20} />, color: 'text-yellow-500', level: 'Expert', years: '3+' },
-    { name: 'React.js', icon: <Globe size={20} />, color: 'text-blue-600', level: 'Advanced', years: '2+' },
-    { name: 'Next.js', icon: <Server size={20} />, color: 'text-black', level: 'Advanced', years: '2+' },
-    { name: 'Node.js', icon: <Server size={20} />, color: 'text-green-600', level: 'Advanced', years: '2+' },
-    { name: 'PostgreSQL', icon: <Database size={20} />, color: 'text-blue-700', level: 'Advanced', years: '2+' },
-    { name: 'SQL Server', icon: <Database size={20} />, color: 'text-red-600', level: 'Expert', years: '3+' },
-    { name: 'C#', icon: <Terminal size={20} />, color: 'text-purple-600', level: 'Intermediate', years: '1+' },
-    { name: 'Docker', icon: <Box size={20} />, color: 'text-blue-500', level: 'Intermediate', years: '1+' },
-    { name: 'Git', icon: <GitBranch size={20} />, color: 'text-orange-600', level: 'Advanced', years: '3+' },
-    { name: 'HTML/CSS', icon: <Globe size={20} />, color: 'text-orange-500', level: 'Expert', years: '3+' },
-    { name: 'Tailwind', icon: <FileCode size={20} />, color: 'text-teal-500', level: 'Advanced', years: '2+' }
+    { name: 'Python', icon: <Code size={20} />, color: 'text-yellow-600' },
+    { name: 'JavaScript', icon: <FileCode size={20} />, color: 'text-yellow-500' },
+    { name: 'React.js', icon: <Globe size={20} />, color: 'text-blue-600' },
+    { name: 'Next.js', icon: <Server size={20} />, color: 'text-black' },
+    { name: 'Node.js', icon: <Server size={20} />, color: 'text-green-600' },
+    { name: 'PostgreSQL', icon: <Database size={20} />, color: 'text-blue-700' },
+    { name: 'SQL Server', icon: <Database size={20} />, color: 'text-red-600' },
+    { name: 'C#', icon: <Terminal size={20} />, color: 'text-purple-600' },
+    { name: 'Docker', icon: <Box size={20} />, color: 'text-blue-500' },
+    { name: 'Git', icon: <GitBranch size={20} />, color: 'text-orange-600' },
+    { name: 'HTML/CSS', icon: <Globe size={20} />, color: 'text-orange-500' },
+    { name: 'Tailwind', icon: <FileCode size={20} />, color: 'text-teal-500' }
   ];
   
 
