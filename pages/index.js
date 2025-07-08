@@ -1,7 +1,25 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Code, Layers, Box, MessageSquare, Menu, X } from "lucide-react";
+import { 
+  Menu, 
+  X, 
+  Code, 
+  Database, 
+  Globe, 
+  Server, 
+  Terminal, 
+  Settings, 
+  Cloud, 
+  GitBranch, 
+  Layers, 
+  Cpu, 
+  Monitor, 
+  Smartphone, 
+  FileCode, 
+  Box
+} from "lucide-react";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,48 +35,16 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState('hero');
   const [active, setActive] = useState('about');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [typedText, setTypedText] = useState('');
-  const [currentTime, setCurrentTime] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const aboutRef = useRef(null);
   const skillsRef = useRef(null);
   const projectsRef = useRef(null);
 
-  // Terminal-style typing animation
-  const commands = [
-    "Full Stack Developer",
-    "Python & JavaScript Expert", 
-    "System Administrator",
-    "Problem Solver"
-  ];
-  const [currentCommandIndex, setCurrentCommandIndex] = useState(0);
+
   
   useEffect(() => {
     setIsLoaded(true);
     
-    // Update time every second
-    const timeInterval = setInterval(() => {
-      setCurrentTime(new Date().toLocaleTimeString('tr-TR'));
-    }, 1000);
-
-    // Typing effect for multiple commands
-    let index = 0;
-    let commandIndex = 0;
-    const typeTimer = setInterval(() => {
-      const currentCommand = commands[commandIndex];
-      if (index < currentCommand.length) {
-        setTypedText(currentCommand.slice(0, index + 1));
-        index++;
-      } else {
-        setTimeout(() => {
-          setTypedText('');
-          index = 0;
-          commandIndex = (commandIndex + 1) % commands.length;
-          setCurrentCommandIndex(commandIndex);
-        }, 2000);
-      }
-    }, 100);
-
     // Mobile menu escape key handler
     const handleEscapeKey = (event) => {
       if (event.key === 'Escape' && isMobileMenuOpen) {
@@ -69,8 +55,6 @@ export default function Home() {
     document.addEventListener('keydown', handleEscapeKey);
 
     return () => {
-      clearInterval(typeTimer);
-      clearInterval(timeInterval);
       document.removeEventListener('keydown', handleEscapeKey);
     };
   }, [isMobileMenuOpen]);
@@ -151,49 +135,23 @@ export default function Home() {
   ];
   
 
-  const skillCategories = [
-    { 
-      title: "Backend Development",
-      icon: "⚙️",
-      skills: [
-        { name: "Python", level: 95, color: "bg-yellow-500" },
-        { name: "C#/.NET", level: 80, color: "bg-purple-500" },
-        { name: "Java (Spring Boot)", level: 75, color: "bg-red-500" },
-        { name: "Node.js", level: 75, color: "bg-green-500" }
-      ]
-    },
-    { 
-      title: "Frontend & UI",
-      icon: "💻",
-      skills: [
-        { name: "JavaScript", level: 85, color: "bg-yellow-400" },
-        { name: "React.js", level: 90, color: "bg-blue-500" },
-        { name: "Vue.js", level: 80, color: "bg-green-500" },
-        { name: "HTML5/CSS3", level: 90, color: "bg-orange-500" },
-        { name: "Tailwind CSS", level: 70, color: "bg-cyan-500" }
-      ]
-    },
-    { 
-      title: "Database & Storage",
-      icon: "🗄️",
-      skills: [
-        { name: "PostgreSQL", level: 88, color: "bg-blue-600" },
-        { name: "MongoDB", level: 80, color: "bg-green-600" },
-        { name: "MySQL", level: 85, color: "bg-orange-600" },
-        { name: "SQL Server", level: 75, color: "bg-red-500" },
-        { name: "Redis", level: 75, color: "bg-red-400" }
-      ]
-    },
-    { 
-      title: "DevOps & Tools",
-      icon: "🔧",
-      skills: [
-        { name: "Docker", level: 75, color: "bg-blue-500" },
-        { name: "Git/GitHub", level: 95, color: "bg-gray-700" },
-        { name: "Linux/Unix", level: 80, color: "bg-yellow-600" },
-        { name: "CI/CD (GitHub Actions)", level: 85, color: "bg-purple-500" }
-      ]
-    }
+  const skills = [
+    { name: "Python", icon: <Code className="w-6 h-6" />, color: "text-blue-500" },
+    { name: "JavaScript", icon: <FileCode className="w-6 h-6" />, color: "text-yellow-500" },
+    { name: "TypeScript", icon: <Code className="w-6 h-6" />, color: "text-blue-600" },
+    { name: "React", icon: <Globe className="w-6 h-6" />, color: "text-cyan-500" },
+    { name: "Next.js", icon: <Monitor className="w-6 h-6" />, color: "text-gray-900" },
+    { name: "Node.js", icon: <Server className="w-6 h-6" />, color: "text-green-500" },
+    { name: "C#", icon: <Code className="w-6 h-6" />, color: "text-purple-600" },
+    { name: "Java", icon: <Cpu className="w-6 h-6" />, color: "text-red-600" },
+    { name: "PostgreSQL", icon: <Database className="w-6 h-6" />, color: "text-blue-600" },
+    { name: "MongoDB", icon: <Database className="w-6 h-6" />, color: "text-green-500" },
+    { name: "MySQL", icon: <Database className="w-6 h-6" />, color: "text-blue-500" },
+    { name: "Docker", icon: <Box className="w-6 h-6" />, color: "text-blue-400" },
+    { name: "Git", icon: <GitBranch className="w-6 h-6" />, color: "text-orange-600" },
+    { name: "Linux", icon: <Terminal className="w-6 h-6" />, color: "text-yellow-600" },
+    { name: "Tailwind", icon: <Layers className="w-6 h-6" />, color: "text-teal-500" },
+    { name: "Cloud", icon: <Cloud className="w-6 h-6" />, color: "text-gray-600" }
   ];
   
 
@@ -203,25 +161,24 @@ export default function Home() {
       <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 relative z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            {/* Logo/Name with terminal style */}
-            <div className="flex items-center space-x-4">
-              <div className="bg-gray-900 dark:bg-gray-700 text-green-400 px-4 py-2 rounded-lg font-mono text-sm">
-                <span className="text-gray-500">~/</span>
-                <span className="text-white">omer-ertas</span>
-                <span className="text-green-400 animate-pulse">$</span>
+            {/* Logo/Name */}
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                ÖFE
               </div>
-              <div className="hidden md:block text-sm text-gray-500 font-mono">
-                Last login: {currentTime}
+              <div className="hidden sm:block">
+                <div className="text-lg font-bold text-gray-900 dark:text-white">Ömer Faruk Ertaş</div>
+                <div className="text-xs text-gray-500">Full Stack Developer</div>
               </div>
             </div>
             
             {/* Navigation Menu */}
-            <nav className="hidden md:flex space-x-6">
+            <nav className="hidden md:flex space-x-8">
               {[
-                { name: 'About', id: 'about', icon: <Code size={16} /> },
-                { name: 'Skills', id: 'skills', icon: <Layers size={16} /> },
-                { name: 'Projects', id: 'projects', icon: <Box size={16} /> },
-                { name: 'Contact', id: 'contact', icon: <MessageSquare size={16} /> }
+                { name: 'Experience', id: 'about' },
+                { name: 'Skills', id: 'skills' },
+                { name: 'Projects', id: 'projects' },
+                { name: 'Contact', id: 'contact' }
               ].map((item) => (
                 <button
                   key={item.id}
@@ -229,28 +186,22 @@ export default function Home() {
                     scrollToSection(item.id);
                     setActive(item.id);
                   }}
-                  className={`group flex items-center space-x-2 px-3 py-1 rounded hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200 ${
+                  className={`relative px-3 py-2 font-medium transition-all duration-200 ${
                     active === item.id
-                      ? 'text-blue-600 dark:text-blue-400 font-semibold'
-                      : 'text-gray-600 dark:text-gray-300'
+                      ? 'text-blue-600 dark:text-blue-400'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
-                  <span className="border border-blue-500 rounded p-1 group-hover:bg-blue-500 group-hover:text-white transition">
-                    {item.icon}
-                  </span>
-                  <span>{item.name}</span>
+                  {item.name}
+                  {active === item.id && (
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-full"></div>
+                  )}
                 </button>
               ))}
             </nav>
 
-            {/* Status indicator & Mobile Menu Button */}
-            <div className="flex items-center space-x-4">
-              <div className="hidden sm:flex items-center space-x-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm text-gray-500 font-mono">Online</span>
-              </div>
-              
-              {/* Mobile Menu Button */}
+            {/* Mobile Menu Button */}
+            <div className="flex items-center">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -268,251 +219,255 @@ export default function Home() {
           
           {/* Mobile Navigation Menu */}
           {isMobileMenuOpen && (
-            <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 absolute top-full left-0 right-0 z-50">
+            <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 absolute top-full left-0 right-0 z-50 shadow-lg">
               <nav className="px-4 py-4">
-                <div className="flex flex-col space-y-3">
+                <div className="flex flex-col space-y-2">
                   {[
-                    { id: 'about', label: 'About', icon: Code },
-                    { id: 'skills', label: 'Skills', icon: Layers },
-                    { id: 'projects', label: 'Projects', icon: Box },
-                    { id: 'contact', label: 'Contact', icon: MessageSquare }
-                  ].map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => scrollToSection(item.id)}
-                        className={`flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
-                          activeSection === item.id
-                            ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-700'
-                            : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
-                        }`}
-                      >
-                        <Icon size={18} />
-                        <span className="font-medium">{item.label}</span>
-                      </button>
-                    );
-                  })}
+                    { id: 'about', label: 'Experience' },
+                    { id: 'skills', label: 'Skills' },
+                    { id: 'projects', label: 'Projects' },
+                    { id: 'contact', label: 'Contact' }
+                  ].map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => scrollToSection(item.id)}
+                      className={`px-4 py-3 rounded-lg text-left font-medium transition-all duration-200 ${
+                        activeSection === item.id
+                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                          : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
                 </div>
               </nav>
             </div>
           )}
         </header>
 
-      {/* Hero Section - Terminal Style */}
-      <section id="hero" className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
-        {/* Code pattern background */}
-        <div className="absolute inset-0 opacity-10">
-          <pre className="text-xs text-green-400 leading-relaxed p-8 font-mono">
-{`function fullStackDeveloper() {
-  const skills = ['Python', 'JavaScript', 'C#', 'Java'];
-  const experience = 'Enterprise Solutions';
-  const passion = 'Problem Solving';
-  
-  return {
-    role: 'Full Stack Developer',
-    location: 'Istanbul, Turkey',
-    availability: 'Open to opportunities',
-    focus: 'Innovation & Quality'
-  };
-}`}
-          </pre>
+      {/* Hero Section - Professional */}
+      <section id="hero" className="bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.4'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: '60px 60px'
+          }}></div>
         </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-            {/* Left side - Terminal */}
-            <div className="space-y-8">
-              {/* Terminal Window */}
-              <div className="bg-gray-800 rounded-lg border border-gray-700 shadow-2xl">
-                {/* Terminal Header */}
-                <div className="flex items-center justify-between px-4 py-3 bg-gray-700 rounded-t-lg">
-                  <div className="flex space-x-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  </div>
-                  <div className="text-gray-300 text-sm font-mono">terminal</div>
-                  <div></div>
-                </div>
-                
-                {/* Terminal Content */}
-                <div className="p-6 font-mono text-sm space-y-2">
-                  <div className="text-green-400">
-                    <span className="text-gray-500">omer@portfolio</span>
-                    <span className="text-white">:</span>
-                    <span className="text-blue-400">~/developer</span>
-                    <span className="text-white">$ </span>
-                    <span>whoami</span>
-                  </div>
-                  <div className="text-white pl-0">
-                    <div className="text-cyan-400">Name: Ömer Faruk Ertaş</div>
-                    <div className="text-yellow-400">Role: {typedText}<span className="animate-pulse">|</span></div>
-                    <div className="text-green-400">Status: Available for hire</div>
-                    <div className="text-purple-400">Location: Çekmekoy, Istanbul</div>
-                  </div>
-                  <div className="text-green-400">
-                    <span className="text-gray-500">omer@portfolio</span>
-                    <span className="text-white">:</span>
-                    <span className="text-blue-400">~/developer</span>
-                    <span className="text-white">$ </span>
-                    <span className="animate-pulse">_</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quick stats */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-4">
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 sm:p-4 text-center">
-                  <div className="text-xl sm:text-2xl font-bold text-yellow-400">2+</div>
-                  <div className="text-xs sm:text-sm text-gray-300">Years Experience</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 sm:p-4 text-center">
-                  <div className="text-xl sm:text-2xl font-bold text-green-400">10+</div>
-                  <div className="text-xs sm:text-sm text-gray-300">Projects</div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2 sm:p-4 text-center">
-                <div className="text-xl sm:text-2xl font-bold text-blue-400">12+</div>
-                <div className="text-xs sm:text-sm text-gray-300">Teknoloji Yetkinliği</div>
-            </div>
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <div className="text-center">
+            {/* Profile Image */}
+            <div className="mb-8">
+              <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg">
+                ÖFE
               </div>
             </div>
-
-            {/* Right side - Profile */}
-            <div className="text-center md:text-left order-first md:order-last">
-              <div className="mb-6 md:mb-8">
-                <div className="w-32 h-32 sm:w-40 sm:h-40 mx-auto md:mx-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-2xl sm:text-4xl font-bold shadow-xl transform hover:scale-105 transition-transform duration-300">
-                  ÖFE
-                </div>
+            
+            {/* Main Content */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+              Ömer Faruk Ertaş
+            </h1>
+            
+            <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-6">
+              Full Stack Developer
+            </p>
+            
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+              İstanbul merkezli Full Stack Developer. Python, JavaScript, C# ve modern teknolojilerle enterprise seviyesinde 
+              yazılım çözümleri geliştiriyorum. Web otomasyonu, veri analizi ve sistem entegrasyonu konularında uzmanım.
+            </p>
+            
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 sm:gap-8 mb-12 max-w-2xl mx-auto">
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-2">2+</div>
+                <div className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Years Experience</div>
               </div>
-              
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-                Ömer Faruk Ertaş
-              </h1>
-              
-              <div className="text-lg sm:text-xl text-blue-400 mb-6 font-mono">
-                &lt;/&gt; Full Stack Developer
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-2">10+</div>
+                <div className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Projects</div>
               </div>
-              
-              <p className="text-base sm:text-lg text-gray-300 mb-8 leading-relaxed">
-                Enterprise seviyesinde yazılım çözümleri geliştiren, problem çözme odaklı 
-                full stack developer. Python, JavaScript, C# ve modern teknolojilerle 
-                ölçeklenebilir sistemler tasarlıyorum.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <button
-                  onClick={() => scrollToSection('projects')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
-                >
-                  <span>📁</span>
-                  <span>View Projects</span>
-                </button>
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="border border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
-                >
-                  <span>📧</span>
-                  <span>Get In Touch</span>
-                </button>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-2">12+</div>
+                <div className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Technologies</div>
               </div>
+            </div>
+            
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => scrollToSection('projects')}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                View My Work
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 rounded-lg font-medium transition-all duration-200"
+              >
+                Get In Touch
+              </button>
             </div>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-12 md:py-20 bg-white dark:bg-gray-900" ref={aboutRef}>
+      <section id="about" className="py-12 md:py-20 bg-gray-50 dark:bg-gray-800" ref={aboutRef}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              <span className="text-blue-600 font-mono">&lt;</span>
-              About Me
-              <span className="text-blue-600 font-mono">/&gt;</span>
+              Work Experience
             </h2>
-            <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              My professional journey from education to enterprise-level development
+            </p>
+            <div className="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
           </div>
           
           <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
-            <div className="lg:col-span-2 space-y-4 md:space-y-6">
-              {/* Professional Experience */}
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 md:p-6 rounded-lg border-l-4 border-blue-500">
-                <h3 className="text-lg md:text-xl font-semibold mb-3 text-gray-900 dark:text-white flex items-center">
-                    <span className="text-xl md:text-2xl mr-3">💼</span>
-                    Professional Experience
-                </h3>
-                <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Python, JavaScript, C#, Java ve SQL gibi farklı teknolojilerle backend ve frontend geliştirme deneyimine sahibim. 
-                    Web otomasyonu, REST API tasarımı, makine öğrenmesi entegrasyonu ve üretim takibi çözümleri üzerine çeşitli projelerde aktif rol aldım. 
-                    Docker, Linux sunucu yönetimi ve CI/CD süreçleri gibi modern yazılım pratiklerini projelerime entegre ettim.
-                </p>
-              </div>
-              
-              {/* Technical Leadership */}
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 md:p-6 rounded-lg border-l-4 border-green-500">
-                <h3 className="text-lg md:text-xl font-semibold mb-3 text-gray-900 dark:text-white flex items-center">
-                    <span className="text-xl md:text-2xl mr-3">🚀</span>
-                    Technical Leadership
-                </h3>
-                <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Full-stack yazılım geliştirme, veri tabanı tasarımı, container mimarisi ve sistem otomasyonu konularında uygulamalı deneyim kazandım. 
-                    Projelerimde altyapı kurulumundan canlıya alma süreçlerine kadar uçtan uca sorumluluk aldım. 
-                    Ayrıca IT destek, sanallaştırma ve ağ yönetimi gibi disiplinlerde de aktif görevler üstlendim.
-                </p>
-              </div>
-              
-              {/* Future Goals */}
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 md:p-6 rounded-lg border-l-4 border-purple-500">
-                <h3 className="text-lg md:text-xl font-semibold mb-3 text-gray-900 dark:text-white flex items-center">
-                    <span className="text-xl md:text-2xl mr-3">🎯</span>
-                    Future Goals
-                </h3>
-                <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-                    Üretim, otomasyon ve veri odaklı çözümler geliştirmede derinleşerek teknoloji liderliği sorumlulukları üstlenmeyi hedefliyorum. 
-                    Modern yazılım mimarileri üzerine uzmanlaşarak büyük ölçekli projelerde stratejik katkı sağlamak ve yenilikçi uygulamalar üretmek önceliklerim arasında yer alıyor.
-                </p>
+            <div className="lg:col-span-2">
+                             {/* Timeline */}
+               <div className="relative">
+                 {/* Timeline Line */}
+                 <div className="absolute left-3 md:left-4 top-0 bottom-0 w-0.5 bg-blue-200 dark:bg-blue-800"></div>
+                 
+                 <div className="space-y-6 md:space-y-8">
+                   {/* Current Position */}
+                   <div className="relative flex items-start">
+                     <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 bg-blue-600 rounded-full flex items-center justify-center relative z-10">
+                       <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
+                     </div>
+                     <div className="ml-4 md:ml-6 bg-white dark:bg-gray-800 p-4 md:p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 flex-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                          Full Stack Developer
+                        </h3>
+                        <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                          2023 - Present
+                        </span>
+                      </div>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
+                        Enterprise seviyesinde web uygulamaları ve otomasyon sistemleri geliştiriyorum. 
+                        Python, JavaScript, C# teknolojileriyle REST API&apos;ler, mikroservis mimarileri ve 
+                        modern frontend uygulamaları tasarlıyorum.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded-full">Python</span>
+                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded-full">React</span>
+                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded-full">Node.js</span>
+                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded-full">Docker</span>
+                      </div>
+                    </div>
+                  </div>
+
+                                     {/* Previous Position */}
+                   <div className="relative flex items-start">
+                     <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center relative z-10">
+                       <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
+                     </div>
+                     <div className="ml-4 md:ml-6 bg-white dark:bg-gray-800 p-4 md:p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 flex-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                          System Administrator & IT Support
+                        </h3>
+                        <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                          2022 - 2023
+                        </span>
+                      </div>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
+                        Linux sunucu yönetimi, ağ altyapısı kurulumu ve sistem otomasyonu konularında 
+                        deneyim kazandım. Virtualization teknolojileri ve CI/CD süreçleri üzerinde çalıştım.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">Linux</span>
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">Bash</span>
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">Networking</span>
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">VMware</span>
+                      </div>
+                    </div>
+                  </div>
+
+                                     {/* Education/Early Career */}
+                   <div className="relative flex items-start">
+                     <div className="flex-shrink-0 w-6 h-6 md:w-8 md:h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center relative z-10">
+                       <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full"></div>
+                     </div>
+                     <div className="ml-4 md:ml-6 bg-white dark:bg-gray-800 p-4 md:p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 flex-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                          Junior Developer & Learning Phase
+                        </h3>
+                        <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                          2021 - 2022
+                        </span>
+                      </div>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
+                        Programlama temelleri ve web teknolojilerini öğrenerek ilk projelerimi geliştirdim. 
+                        Makine öğrenmesi, görüntü işleme ve web otomasyonu konularında deneyim edindim.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">Python</span>
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">OpenCV</span>
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">Selenium</span>
+                        <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full">ML</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             
             <div className="space-y-4 md:space-y-6">
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 md:p-6 rounded-lg">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                 <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900 dark:text-white">Connect</h3>
                 <div className="space-y-3">
                   <a
                     href="https://linkedin.com/in/ömerfarukertaş"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-3 text-blue-600 hover:text-blue-800 transition-colors"
+                    className="flex items-center space-x-3 text-blue-600 hover:text-blue-800 transition-colors group"
                   >
-                    <span>🔗</span>
+                    <span className="text-blue-600 group-hover:text-blue-800">→</span>
                     <span>LinkedIn Profile</span>
                   </a>
                   <a
                     href="https://github.com/omerfark"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-3 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300 transition-colors"
+                    className="flex items-center space-x-3 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-300 transition-colors group"
                   >
-                    <span>⚡</span>
+                    <span className="text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-300">→</span>
                     <span>GitHub Repository</span>
                   </a>
                 </div>
               </div>
               
-              <div className="bg-gray-50 dark:bg-gray-800 p-4 md:p-6 rounded-lg">
-                <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900 dark:text-white">Currently</h3>
-                <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                  <div className="flex items-center justify-between">
-                    <span>Status</span>
-                    <span className="text-green-500 font-medium">Available</span>
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900 dark:text-white">Current Status</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">Available for work</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">Open to new opportunities</div>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span>Focus</span>
-                    <span className="text-blue-500 font-medium">Full Stack</span>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">Full Stack Development</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">Current focus area</div>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span>Location</span>
-                    <span className="text-gray-500 font-medium">Istanbul, TR</span>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                    <div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">Istanbul, Turkey</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">Based in Çekmekoy</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -521,45 +476,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Skills Section with Progress Bars */}
-      <section id="skills" className="py-12 md:py-20 bg-gray-50 dark:bg-gray-800" ref={skillsRef}>
+      {/* Skills Section - Tech Stack */}
+      <section id="skills" className="py-12 md:py-20 bg-white dark:bg-gray-900" ref={skillsRef}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              <span className="text-blue-600 font-mono">{"{"}</span>
-              Technical Skills
-              <span className="text-blue-600 font-mono">{"}"}</span>
+              Tech Stack
             </h2>
-            <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Here are my tech stack and tools I work with
+            </p>
+            <div className="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-            {skillCategories.map((category, index) => (
-              <div key={index} className="bg-white dark:bg-gray-900 p-4 md:p-6 rounded-lg shadow-lg">
-                <h3 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 text-gray-900 dark:text-white flex items-center">
-                  <span className="text-xl md:text-2xl mr-3">{category.icon}</span>
-                  {category.title}
-                </h3>
-                <div className="space-y-3 md:space-y-4">
-                  {category.skills.map((skill, skillIndex) => (
-                    <div key={skillIndex}>
-                      <div className="flex justify-between items-center mb-1 md:mb-2">
-                        <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
-                          {skill.name}
-                        </span>
-                        <span className="text-xs sm:text-sm text-gray-500 font-mono">
-                          {skill.level}%
-                        </span>
-                      </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div
-                          className={`${skill.color} h-2 rounded-full transition-all duration-1000 ease-out`}
-                          style={{ width: `${skill.level}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  ))}
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 mt-5">
+            {skills.map((skill, index) => (
+              <div
+                key={index}
+                className="group flex flex-col items-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800 hover:shadow-md hover:bg-white dark:hover:bg-gray-700 transition-all duration-200 border border-gray-200 dark:border-gray-700"
+              >
+                <div className={`mb-1 ${skill.color} group-hover:scale-110 transition-transform duration-200`}>
+                  {skill.icon}
                 </div>
+                <span className="text-xs font-medium text-gray-600 dark:text-gray-300 text-center">
+                  {skill.name}
+                </span>
               </div>
             ))}
           </div>
@@ -567,18 +508,16 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-12 md:py-20 bg-white dark:bg-gray-900" ref={projectsRef}>
+      <section id="projects" className="py-12 md:py-20 bg-gray-50 dark:bg-gray-800" ref={projectsRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              <span className="text-blue-600 font-mono">[</span>
-              Projects
-              <span className="text-blue-600 font-mono">]</span>
+              Featured Projects
             </h2>
-            <div className="w-20 h-1 bg-blue-600 mx-auto mb-4"></div>
-            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Enterprise-level applications and innovative solutions I&apos;ve developed
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              A showcase of applications and solutions I&apos;ve built with passion and precision
             </p>
+            <div className="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -620,19 +559,19 @@ export default function Home() {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-1 md:space-x-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 text-xs md:text-sm"
+                    className="flex items-center space-x-1 md:space-x-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 text-xs md:text-sm transition-colors group"
                   >
-                    <span>⚡</span>
-                    <span>Source</span>
+                    <span className="group-hover:scale-110 transition-transform">→</span>
+                    <span>Source Code</span>
                   </a>
                   <a
                     href={project.demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-1 md:space-x-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-xs md:text-sm"
+                    className="flex items-center space-x-1 md:space-x-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-xs md:text-sm transition-colors group"
                   >
-                    <span>🚀</span>
-                    <span>Demo</span>
+                    <span className="group-hover:scale-110 transition-transform">↗</span>
+                    <span>Live Demo</span>
                   </a>
                 </div>
               </div>
@@ -642,15 +581,16 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-12 md:py-20 bg-gray-50 dark:bg-gray-800">
+      <section id="contact" className="py-12 md:py-20 bg-white dark:bg-gray-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              <span className="text-blue-600 font-mono">(</span>
-              Contact
-              <span className="text-blue-600 font-mono">)</span>
+              Get In Touch
             </h2>
-            <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Let&apos;s discuss opportunities, collaborations, or just have a conversation about technology
+            </p>
+            <div className="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
           </div>
           
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
@@ -659,38 +599,38 @@ export default function Home() {
                 <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900 dark:text-white">
                   Get In Touch
                 </h3>
-                <div className="space-y-3 md:space-y-4">
-                  <div className="flex items-center space-x-3 md:space-x-4">
-                    <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-blue-600 text-sm md:text-base">📧</span>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0 border border-blue-200 dark:border-blue-800">
+                      <span className="text-blue-600 text-sm font-mono">@</span>
                     </div>
                     <div className="min-w-0">
-                      <div className="text-xs md:text-sm text-gray-500">Email</div>
-                      <a href="mailto:mrertas12@gmail.com" className="text-blue-600 hover:text-blue-800 text-sm md:text-base break-all">
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Email</div>
+                      <a href="mailto:mrertas12@gmail.com" className="text-blue-600 hover:text-blue-800 font-medium break-all transition-colors">
                         mrertas12@gmail.com
                       </a>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-3 md:space-x-4">
-                    <div className="w-8 h-8 md:w-10 md:h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-green-600 text-sm md:text-base">📱</span>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-10 h-10 bg-green-50 dark:bg-green-900/30 rounded-lg flex items-center justify-center flex-shrink-0 border border-green-200 dark:border-green-800">
+                      <span className="text-green-600 text-sm font-mono">📞</span>
                     </div>
                     <div className="min-w-0">
-                      <div className="text-xs md:text-sm text-gray-500">Phone</div>
-                      <a href="tel:+905447452012" className="text-green-600 hover:text-green-800 text-sm md:text-base">
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Phone</div>
+                      <a href="tel:+905447452012" className="text-green-600 hover:text-green-800 font-medium transition-colors">
                         +90 544 745 2012
                       </a>
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-3 md:space-x-4">
-                    <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-purple-600 text-sm md:text-base">📍</span>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900/30 rounded-lg flex items-center justify-center flex-shrink-0 border border-purple-200 dark:border-purple-800">
+                      <span className="text-purple-600 text-sm font-mono">📍</span>
                     </div>
                     <div className="min-w-0">
-                      <div className="text-xs md:text-sm text-gray-500">Location</div>
-                      <span className="text-gray-600 dark:text-gray-300 text-sm md:text-base">Çekmekoy, Istanbul</span>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Location</div>
+                      <span className="text-gray-600 dark:text-gray-300 font-medium">Çekmekoy, Istanbul</span>
                     </div>
                   </div>
                 </div>
@@ -702,35 +642,37 @@ export default function Home() {
                 <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900 dark:text-white">
                   Professional Links
                 </h3>
-                <div className="space-y-3 md:space-y-4">
+                <div className="space-y-4">
                   <a
                     href="https://linkedin.com/in/ömerfarukertaş"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-3 md:space-x-4 p-2 md:p-3 rounded-lg border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                    className="flex items-center space-x-4 p-4 rounded-xl border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 group"
                   >
-                    <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-sm md:text-base">🔗</span>
+                    <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-mono text-sm">in</span>
                     </div>
                     <div className="min-w-0">
-                      <div className="font-medium text-gray-900 dark:text-white text-sm md:text-base">LinkedIn</div>
-                      <div className="text-xs md:text-sm text-gray-500">Professional Network</div>
+                      <div className="font-medium text-gray-900 dark:text-white">LinkedIn</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Professional Network</div>
                     </div>
+                    <div className="text-blue-600 group-hover:translate-x-1 transition-transform">→</div>
                   </a>
                   
                   <a
                     href="https://github.com/omerfark"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-3 md:space-x-4 p-2 md:p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    className="flex items-center space-x-4 p-4 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group"
                   >
-                    <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-800 dark:bg-gray-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-sm md:text-base">⚡</span>
+                    <div className="w-10 h-10 bg-gray-800 dark:bg-gray-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-mono text-sm">gh</span>
                     </div>
                     <div className="min-w-0">
-                      <div className="font-medium text-gray-900 dark:text-white text-sm md:text-base">GitHub</div>
-                      <div className="text-xs md:text-sm text-gray-500">Source Code & Projects</div>
+                      <div className="font-medium text-gray-900 dark:text-white">GitHub</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Source Code & Projects</div>
                     </div>
+                    <div className="text-gray-600 group-hover:translate-x-1 transition-transform">→</div>
                   </a>
                 </div>
               </div>
@@ -740,19 +682,20 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8 md:py-12">
+      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="bg-gray-800 inline-block px-3 md:px-6 py-2 md:py-3 rounded-lg mb-4 md:mb-6 max-w-full">
-              <div className="font-mono text-green-400 text-xs sm:text-sm md:text-base overflow-x-auto">
-                <span className="text-gray-500">~/</span>
-                <span>portfolio</span>
-                <span className="text-blue-400">$</span>
-                <span className="text-white ml-1 md:ml-2">echo &quot;Thanks for visiting!&quot;</span>
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                ÖFE
               </div>
+              <span className="text-gray-900 dark:text-white font-semibold">Ömer Faruk Ertaş</span>
             </div>
-            <div className="text-gray-400 mb-4 text-xs sm:text-sm">
-              © 2024 Ömer Faruk Ertaş - Full Stack Developer
+            <div className="text-gray-600 dark:text-gray-400 text-sm">
+              © 2024 Full Stack Developer
+            </div>
+            <div className="text-gray-500 dark:text-gray-500 text-xs mt-2">
+              Built with Next.js & Tailwind CSS
             </div>
           </div>
         </div>
