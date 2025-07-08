@@ -679,9 +679,6 @@ export default function Home() {
                 <span className="text-xs font-medium text-center" style={{color: 'var(--apple-text-primary)'}}>
                   {skill.name}
                 </span>
-                <div className="text-xs mt-1" style={{color: 'var(--apple-text-secondary)'}}>
-                  {skill.level} ({skill.years})
-                </div>
               </div>
             ))}
           </div>
